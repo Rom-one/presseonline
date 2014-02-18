@@ -1,8 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 
@@ -23,26 +24,34 @@ public class FacturationArticle implements Serializable {
 	@Column(name="facturation_article_date")
 	private Date facturationArticleDate;
 
-	@Lob
 	@Column(name="facturation_article_titre")
 	private String facturationArticleTitre;
 
-	@Column(name="facturation_article_total", precision=10, scale=2)
-	private BigDecimal facturationArticleTotal;
+	@Column(name="facturation_article_total")
+	private double facturationArticleTotal;
 
 	//bi-directional many-to-one association to Article
 	@ManyToOne
-	@JoinColumn(name="article_id", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="article_id")
 	private Article article;
 
 	//bi-directional many-to-one association to Utilisateur
 	@ManyToOne
-	@JoinColumn(name="utilisateur_id", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="utilisateur_id")
 	private Utilisateur utilisateur;
 
 	public FacturationArticle() {
 	}
-
+	
+	public FacturationArticle(Date date, String titre,double total, Article a, Utilisateur u) {
+		this.id = new FacturationArticlePK(a.getArticleId(),u.getUtilisateurId());
+		this.facturationArticleDate = date;
+		this.facturationArticleTitre = titre;
+		this.facturationArticleTotal = total;
+		this.article = a;
+		this.utilisateur = u;
+	}
+	
 	public FacturationArticlePK getId() {
 		return this.id;
 	}
@@ -67,11 +76,11 @@ public class FacturationArticle implements Serializable {
 		this.facturationArticleTitre = facturationArticleTitre;
 	}
 
-	public BigDecimal getFacturationArticleTotal() {
+	public double getFacturationArticleTotal() {
 		return this.facturationArticleTotal;
 	}
 
-	public void setFacturationArticleTotal(BigDecimal facturationArticleTotal) {
+	public void setFacturationArticleTotal(double facturationArticleTotal) {
 		this.facturationArticleTotal = facturationArticleTotal;
 	}
 

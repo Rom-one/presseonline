@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -12,42 +11,30 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="article")
 @NamedQuery(name="Article.findAll", query="SELECT a FROM Article a")
 public class Article implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="article_id", unique=true, nullable=false)
+	@Column(name="article_id")
 	private int articleId;
 
 	@Lob
-	@Column(name="article_contenu", nullable=false)
+	@Column(name="article_contenu")
 	private String articleContenu;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="article_date", nullable=false)
+	@Column(name="article_date")
 	private Date articleDate;
 
-	@Column(name="article_prix", precision=10, scale=2)
-	private BigDecimal articlePrix;
+	@Column(name="article_prix")
+	private double articlePrix;
 
-	@Column(name="article_titre", nullable=false, length=100)
+	@Column(name="article_publie")
+	private boolean articlePublie;
+
+	@Column(name="article_titre")
 	private String articleTitre;
-
-	//bi-directional many-to-many association to Commentaire
-	@ManyToMany
-	@JoinTable(
-		name="article_commentaire"
-		, joinColumns={
-			@JoinColumn(name="article_id", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="commentaire_id", nullable=false)
-			}
-		)
-	private List<Commentaire> commentaires;
 
 	//bi-directional many-to-many association to Dossier
 	@ManyToMany(mappedBy="articles")
@@ -88,12 +75,20 @@ public class Article implements Serializable {
 		this.articleDate = articleDate;
 	}
 
-	public BigDecimal getArticlePrix() {
+	public double getArticlePrix() {
 		return this.articlePrix;
 	}
 
-	public void setArticlePrix(BigDecimal articlePrix) {
+	public void setArticlePrix(double articlePrix) {
 		this.articlePrix = articlePrix;
+	}
+
+	public boolean getArticlePublie() {
+		return this.articlePublie;
+	}
+
+	public void setArticlePublie(boolean articlePublie) {
+		this.articlePublie = articlePublie;
 	}
 
 	public String getArticleTitre() {
@@ -102,14 +97,6 @@ public class Article implements Serializable {
 
 	public void setArticleTitre(String articleTitre) {
 		this.articleTitre = articleTitre;
-	}
-
-	public List<Commentaire> getCommentaires() {
-		return this.commentaires;
-	}
-
-	public void setCommentaires(List<Commentaire> commentaires) {
-		this.commentaires = commentaires;
 	}
 
 	public List<Dossier> getDossiers() {

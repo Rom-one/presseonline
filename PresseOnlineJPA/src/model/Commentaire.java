@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -11,15 +10,16 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="commentaire")
 @NamedQuery(name="Commentaire.findAll", query="SELECT c FROM Commentaire c")
 public class Commentaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="commentaire_id", unique=true, nullable=false)
+	@Column(name="commentaire_id")
 	private int commentaireId;
+
+	@Column(name="article_id")
+	private int articleId;
 
 	@Lob
 	@Column(name="commentaire_contenu")
@@ -28,10 +28,6 @@ public class Commentaire implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="commentaire_date")
 	private Date commentaireDate;
-
-	//bi-directional many-to-many association to Article
-	@ManyToMany(mappedBy="commentaires")
-	private List<Article> articles;
 
 	//bi-directional many-to-one association to Utilisateur
 	@ManyToOne
@@ -49,6 +45,14 @@ public class Commentaire implements Serializable {
 		this.commentaireId = commentaireId;
 	}
 
+	public int getArticleId() {
+		return this.articleId;
+	}
+
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
+
 	public String getCommentaireContenu() {
 		return this.commentaireContenu;
 	}
@@ -63,14 +67,6 @@ public class Commentaire implements Serializable {
 
 	public void setCommentaireDate(Date commentaireDate) {
 		this.commentaireDate = commentaireDate;
-	}
-
-	public List<Article> getArticles() {
-		return this.articles;
-	}
-
-	public void setArticles(List<Article> articles) {
-		this.articles = articles;
 	}
 
 	public Utilisateur getUtilisateur() {

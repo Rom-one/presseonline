@@ -11,20 +11,18 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="dossier")
 @NamedQuery(name="Dossier.findAll", query="SELECT d FROM Dossier d")
 public class Dossier implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="dossier_id", unique=true, nullable=false)
+	@Column(name="dossier_id")
 	private int dossierId;
 
-	@Column(name="dossier_prix", precision=10, scale=2)
+	@Column(name="dossier_prix")
 	private BigDecimal dossierPrix;
 
-	@Column(name="dossier_titre", nullable=false, length=100)
+	@Column(name="dossier_titre")
 	private String dossierTitre;
 
 	//bi-directional many-to-many association to Article
@@ -32,10 +30,10 @@ public class Dossier implements Serializable {
 	@JoinTable(
 		name="dossier_article"
 		, joinColumns={
-			@JoinColumn(name="dossier_id", nullable=false)
+			@JoinColumn(name="dossier_id")
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="article_id", nullable=false)
+			@JoinColumn(name="article_id")
 			}
 		)
 	private List<Article> articles;

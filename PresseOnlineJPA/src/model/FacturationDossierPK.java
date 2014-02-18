@@ -12,14 +12,20 @@ public class FacturationDossierPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="dossier_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="dossier_id", insertable=false, updatable=false)
 	private int dossierId;
 
-	@Column(name="utilisateur_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="utilisateur_id", insertable=false, updatable=false)
 	private int utilisateurId;
 
 	public FacturationDossierPK() {
 	}
+	
+	public FacturationDossierPK(int dossierId, int utilisateurId) {
+		this.dossierId = dossierId;
+		this.utilisateurId = utilisateurId;
+	}
+	
 	public int getDossierId() {
 		return this.dossierId;
 	}

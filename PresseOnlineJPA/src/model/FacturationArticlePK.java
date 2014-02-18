@@ -12,14 +12,20 @@ public class FacturationArticlePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="article_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="article_id", insertable=false, updatable=false)
 	private int articleId;
 
-	@Column(name="utilisateur_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="utilisateur_id", insertable=false, updatable=false)
 	private int utilisateurId;
 
 	public FacturationArticlePK() {
 	}
+	
+	public FacturationArticlePK(int articleId, int utilisateurId) {
+		this.articleId = articleId;
+		this.utilisateurId = utilisateurId;
+	}
+
 	public int getArticleId() {
 		return this.articleId;
 	}

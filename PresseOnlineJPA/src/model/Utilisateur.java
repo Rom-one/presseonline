@@ -10,26 +10,27 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="utilisateur")
 @NamedQuery(name="Utilisateur.findAll", query="SELECT u FROM Utilisateur u")
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="utilisateur_id", unique=true, nullable=false)
+	@Column(name="utilisateur_id")
 	private int utilisateurId;
 
-	@Column(name="utilisateur_fullname", nullable=false, length=50)
+	@Column(name="utilisateur_abonne")
+	private boolean utilisateurAbonne;
+
+	@Column(name="utilisateur_fullname")
 	private String utilisateurFullname;
 
-	@Column(name="utilisateur_login", nullable=false, length=50)
+	@Column(name="utilisateur_login")
 	private String utilisateurLogin;
 
-	@Column(name="utilisateur_mail", nullable=false, length=50)
+	@Column(name="utilisateur_mail")
 	private String utilisateurMail;
 
-	@Column(name="utilisateur_password", nullable=false, length=50)
+	@Column(name="utilisateur_password")
 	private String utilisateurPassword;
 
 	//bi-directional many-to-one association to Commentaire
@@ -48,18 +49,10 @@ public class Utilisateur implements Serializable {
 	@OneToMany(mappedBy="utilisateur")
 	private List<Note> notes;
 
-	//bi-directional many-to-many association to TypeUtilisateur
-	@ManyToMany
-	@JoinTable(
-		name="utilsateur_type_utilisateur"
-		, joinColumns={
-			@JoinColumn(name="utilisateur_id", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="type_utilisateur_id", nullable=false)
-			}
-		)
-	private List<TypeUtilisateur> typeUtilisateurs;
+	//bi-directional many-to-one association to TypeUtilisateur
+	@ManyToOne
+	@JoinColumn(name="type_utilisateur_id")
+	private TypeUtilisateur typeUtilisateur;
 
 	public Utilisateur() {
 	}
@@ -70,6 +63,14 @@ public class Utilisateur implements Serializable {
 
 	public void setUtilisateurId(int utilisateurId) {
 		this.utilisateurId = utilisateurId;
+	}
+
+	public boolean getUtilisateurAbonne() {
+		return this.utilisateurAbonne;
+	}
+
+	public void setUtilisateurAbonne(boolean utilisateurAbonne) {
+		this.utilisateurAbonne = utilisateurAbonne;
 	}
 
 	public String getUtilisateurFullname() {
@@ -192,12 +193,12 @@ public class Utilisateur implements Serializable {
 		return note;
 	}
 
-	public List<TypeUtilisateur> getTypeUtilisateurs() {
-		return this.typeUtilisateurs;
+	public TypeUtilisateur getTypeUtilisateur() {
+		return this.typeUtilisateur;
 	}
 
-	public void setTypeUtilisateurs(List<TypeUtilisateur> typeUtilisateurs) {
-		this.typeUtilisateurs = typeUtilisateurs;
+	public void setTypeUtilisateur(TypeUtilisateur typeUtilisateur) {
+		this.typeUtilisateur = typeUtilisateur;
 	}
 
 }

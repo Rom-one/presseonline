@@ -16,15 +16,14 @@ public class TypeUtilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="type_utilisateur_id", unique=true, nullable=false)
+	@Column(name="type_utilisateur_id")
 	private int typeUtilisateurId;
 
-	@Column(name="type_utilisateur_label", nullable=false, length=50)
+	@Column(name="type_utilisateur_label")
 	private String typeUtilisateurLabel;
 
-	//bi-directional many-to-many association to Utilisateur
-	@ManyToMany(mappedBy="typeUtilisateurs")
+	//bi-directional many-to-one association to Utilisateur
+	@OneToMany(mappedBy="typeUtilisateur")
 	private List<Utilisateur> utilisateurs;
 
 	public TypeUtilisateur() {
@@ -52,6 +51,20 @@ public class TypeUtilisateur implements Serializable {
 
 	public void setUtilisateurs(List<Utilisateur> utilisateurs) {
 		this.utilisateurs = utilisateurs;
+	}
+
+	public Utilisateur addUtilisateur(Utilisateur utilisateur) {
+		getUtilisateurs().add(utilisateur);
+		utilisateur.setTypeUtilisateur(this);
+
+		return utilisateur;
+	}
+
+	public Utilisateur removeUtilisateur(Utilisateur utilisateur) {
+		getUtilisateurs().remove(utilisateur);
+		utilisateur.setTypeUtilisateur(null);
+
+		return utilisateur;
 	}
 
 }

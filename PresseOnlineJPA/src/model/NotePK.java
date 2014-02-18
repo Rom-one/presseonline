@@ -12,14 +12,20 @@ public class NotePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="utilisateur_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="utilisateur_id", insertable=false, updatable=false)
 	private int utilisateurId;
 
-	@Column(name="article_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="article_id", insertable=false, updatable=false)
 	private int articleId;
 
 	public NotePK() {
 	}
+	
+	public NotePK(int utilisateurId, int articleId) {
+		this.utilisateurId = utilisateurId;
+		this.articleId = articleId;
+	}
+
 	public int getUtilisateurId() {
 		return this.utilisateurId;
 	}

@@ -1,8 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 
@@ -23,23 +24,32 @@ public class FacturationDossier implements Serializable {
 	@Column(name="facturation_dossier_date")
 	private Date facturationDossierDate;
 
-	@Column(name="facturation_dossier_titre", length=100)
+	@Column(name="facturation_dossier_titre")
 	private String facturationDossierTitre;
 
-	@Column(name="facturation_dossier_total", precision=10, scale=2)
-	private BigDecimal facturationDossierTotal;
+	@Column(name="facturation_dossier_total")
+	private double facturationDossierTotal;
 
 	//bi-directional many-to-one association to Dossier
 	@ManyToOne
-	@JoinColumn(name="dossier_id", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="dossier_id")
 	private Dossier dossier;
 
 	//bi-directional many-to-one association to Utilisateur
 	@ManyToOne
-	@JoinColumn(name="utilisateur_id", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="utilisateur_id")
 	private Utilisateur utilisateur;
 
 	public FacturationDossier() {
+	}
+	
+	public FacturationDossier(Date date, String titre, double total, Dossier d, Utilisateur u) {
+		this.id = new FacturationDossierPK(d.getDossierId(), u.getUtilisateurId());
+		this.facturationDossierDate = date;
+		this.facturationDossierTitre = titre;
+		this.facturationDossierTotal = total;
+		this.dossier = d;
+		this.utilisateur = u;
 	}
 
 	public FacturationDossierPK getId() {
@@ -66,11 +76,11 @@ public class FacturationDossier implements Serializable {
 		this.facturationDossierTitre = facturationDossierTitre;
 	}
 
-	public BigDecimal getFacturationDossierTotal() {
+	public double getFacturationDossierTotal() {
 		return this.facturationDossierTotal;
 	}
 
-	public void setFacturationDossierTotal(BigDecimal facturationDossierTotal) {
+	public void setFacturationDossierTotal(double facturationDossierTotal) {
 		this.facturationDossierTotal = facturationDossierTotal;
 	}
 
