@@ -1,152 +1,155 @@
 package presseonline.client;
 
-import presseonline.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class PresseonlineGWT implements EntryPoint {
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting service.
-	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private VerticalPanel mainPanel;
+	private HorizontalPanel menuPanel;
+	private VerticalPanel rightNavPanel;
+	private HorizontalPanel footerPanel;
+	
+	private PresseonlineAdmin adminPage;
+	private PresseonlineJournalist journalistPage;
+	private PresseonlineSubscriber subscriberPage;
+	
+	public PresseonlineGWT(){
+		mainPanel = new VerticalPanel();
+		menuPanel = new HorizontalPanel();
+		rightNavPanel = new VerticalPanel();
+		footerPanel = new HorizontalPanel();
+		
+		adminPage = new PresseonlineAdmin(this);
+		journalistPage = new PresseonlineJournalist(this);
+		subscriberPage = new PresseonlineSubscriber(this);
+	}
 
-	/**
-	 * This is the entry point method.
-	 */
+	public VerticalPanel getMainPanel() {
+		return mainPanel;
+	}
+
+	public HorizontalPanel getMenuPanel() {
+		return menuPanel;
+	}
+
+	public VerticalPanel getLeftNavPanel() {
+		return rightNavPanel;
+	}
+
+	public HorizontalPanel getFooterPanel() {
+		return footerPanel;
+	}
+
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
-		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
-		final Label errorLabel = new Label();
+		mainPanel.getElement().setAttribute("align", "center");
+		RootPanel.get("content").add(mainPanel);
 
-		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
+		RootPanel.get("menu").add(menuPanel);
+		RootPanel.get("rightnav").add(rightNavPanel);
+		RootPanel.get("footer").add(footerPanel);
+		
+		Label recentArticle = new Label("Dernières articles");
+		recentArticle.addStyleName("rightnavTitle");
+		
+		/*On ajoute dans le rightnav les dernieres articles*/
+		rightNavPanel.add(recentArticle);
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
+		displayLoginForm();
+	}
 
-		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
+	@SuppressWarnings("deprecation")
+	public void displayLoginForm() {
+		Label titleForm = new Label("Connexion");
+		titleForm.addStyleName("pageTitle");
+		
+		TextBox textBoxLogin = new TextBox();
+		textBoxLogin.setText("Votre login");
+		
+		TextBox textBoxPassword = new TextBox();
+		textBoxPassword.setText("Votre mot de passe");
+		
+		Button buttonLogin = new Button("Valider");
+		buttonLogin.addStyleName("sendButton");
+		buttonLogin.getElement().getStyle().setProperty("align", "center");
+		
+		Hyperlink linkSubscribe = new Hyperlink("S'inscrire", "S'inscrire");
+		linkSubscribe.getElement().getStyle().setProperty("align", "right");
 
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
-		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
-		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
+		mainPanel.add(titleForm);
+		mainPanel.add(textBoxLogin);
+		mainPanel.add(textBoxPassword);
+	
+		mainPanel.add(buttonLogin);
+		mainPanel.add(linkSubscribe);
 
-		// Add a handler to close the DialogBox
-		closeButton.addClickHandler(new ClickHandler() {
+		buttonLogin.addClickHandler(new ClickHandler() {
+
+			@Override
 			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
+				doLoginAction();
 			}
 		});
 
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				sendNameToServer();
+		linkSubscribe.addClickListener(new ClickListener() {
+
+			@Override
+			public void onClick(Widget sender) {
+				// TODO Auto-generated method stub
+				displaySubscribeForm();
 			}
+		});
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
-				}
-			}
-
-			/**
-			 * Send the name from the nameField to the server and wait for a response.
-			 */
-			private void sendNameToServer() {
-				// First, we validate the input.
-				errorLabel.setText("");
-				String textToServer = nameField.getText();
-				if (!FieldVerifier.isValidName(textToServer)) {
-					errorLabel.setText("Please enter at least four characters");
-					return;
-				}
-
-				// Then, we send the input to the server.
-				sendButton.setEnabled(false);
-				textToServerLabel.setText(textToServer);
-				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								// Show the RPC error message to the user
-								dialogBox
-										.setText("Remote Procedure Call - Failure");
-								serverResponseLabel
-										.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(SERVER_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-
-							public void onSuccess(String result) {
-								dialogBox.setText("Remote Procedure Call");
-								serverResponseLabel
-										.removeStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(result);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-						});
-			}
-		}
-
-		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
 	}
+
+	public void displaySubscribeForm() {
+		mainPanel.clear();
+		TextBox textBoxLogin = new TextBox();
+		textBoxLogin.setText("Votre login");
+		TextBox textBoxPassword = new TextBox();
+		textBoxPassword.setText("Votre mot de passe");
+		TextBox textBoxNom = new TextBox();
+		textBoxNom.setText("Votre nom");
+		TextBox textBoxPrenom = new TextBox();
+		textBoxPrenom.setText("Votre prenom");
+		TextBox textBoxCatcha = new TextBox();
+		textBoxCatcha.setText("2+2 = ?");
+		Button buttonSubscribe = new Button("S'inscrire");
+		buttonSubscribe.addStyleName("sendButton");
+
+		mainPanel.add(textBoxLogin);
+		mainPanel.add(textBoxPassword);
+		mainPanel.add(textBoxNom);
+		mainPanel.add(textBoxPrenom);
+		mainPanel.add(textBoxCatcha);
+		mainPanel.add(buttonSubscribe);
+
+		buttonSubscribe.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				doSubscribeAction();
+			}
+		});
+	}
+
+	/* All the action that we should communicate with EJB */
+	public void doLoginAction() {
+		/* Test the display of admin page (create account) */
+		//adminPage.displayAdminCreateAccountPage();
+		//journalistPage.displayJournalistAddArticleForm();
+		subscriberPage.displayProfileSubscriber();
+		
+	}
+
+	public void doSubscribeAction() {
+	
+	}
+
 }

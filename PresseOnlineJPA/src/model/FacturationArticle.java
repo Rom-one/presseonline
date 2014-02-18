@@ -1,9 +1,7 @@
 package model;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 
 
@@ -43,15 +41,8 @@ public class FacturationArticle implements Serializable {
 	public FacturationArticle() {
 	}
 	
-	public FacturationArticle(Date date, String titre,double total, Article a, Utilisateur u) {
-		this.id = new FacturationArticlePK(a.getArticleId(),u.getUtilisateurId());
-		this.facturationArticleDate = date;
-		this.facturationArticleTitre = titre;
-		this.facturationArticleTotal = total;
-		this.article = a;
-		this.utilisateur = u;
-	}
 	
+
 	public FacturationArticlePK getId() {
 		return this.id;
 	}

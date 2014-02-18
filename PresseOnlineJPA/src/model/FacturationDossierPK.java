@@ -20,12 +20,6 @@ public class FacturationDossierPK implements Serializable {
 
 	public FacturationDossierPK() {
 	}
-	
-	public FacturationDossierPK(int dossierId, int utilisateurId) {
-		this.dossierId = dossierId;
-		this.utilisateurId = utilisateurId;
-	}
-	
 	public int getDossierId() {
 		return this.dossierId;
 	}

@@ -37,7 +37,7 @@ public class AuthentificationSession implements AuthentificationSessionRemote {
 	}
 
 	@Override
-	public void login() {
+	public void login(String id, String mdp) {
 		utilisateurCourant = utilisateurSession.find(null);
 	}
 

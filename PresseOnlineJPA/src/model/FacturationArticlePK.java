@@ -20,12 +20,6 @@ public class FacturationArticlePK implements Serializable {
 
 	public FacturationArticlePK() {
 	}
-	
-	public FacturationArticlePK(int articleId, int utilisateurId) {
-		this.articleId = articleId;
-		this.utilisateurId = utilisateurId;
-	}
-
 	public int getArticleId() {
 		return this.articleId;
 	}

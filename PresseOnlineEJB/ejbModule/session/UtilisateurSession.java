@@ -42,6 +42,12 @@ public class UtilisateurSession extends AbstractSession<Utilisateur> implements 
 		u.setUtilisateurAbonne(false);
 		update(u);
 	}
+
+	@Override
+	public Utilisateur findByLogin(String login, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

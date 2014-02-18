@@ -1,9 +1,11 @@
 /** Add css rules here for your application. */
-
+body {
+	
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-size: 2em;
+  font-size: 3em;
   font-weight: bold;
   color: #777777;
   margin: 40px 0px 70px;
@@ -13,6 +15,14 @@ h1 {
 .sendButton {
   display: block;
   font-size: 16pt;
+  margin: auto;
+}
+
+.pageTitle{
+	font-size: 2em;
+  	font-weight: bold;
+  	color: #005B92;
+  	padding-bottom: 10px;
 }
 
 /** Most GWT widgets already have a style name defined */
@@ -32,3 +42,47 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.wrapper {
+	
+}
+
+#header {
+	background-color: #005B92;
+	height: 30px;
+}
+
+#header h1 {
+	color: #FFFFFF;
+}
+
+#rightnav {
+	width: 300px;
+}
+
+.rightnavTitle {
+	color: #FFFFFF;
+	size: 16px;
+	font-family: sans-serif;
+}
+
+#content {
+	padding-top: 30px;
+}
+
+#content input{
+	margin-bottom: 5px;
+}
+
+#menu {
+	border-bottom-color: #005B92;
+	border-bottom-style: solid;
+	height: 35px;
+}
+
+#menu a {
+	padding-left: 5px;
+	padding-right: 20px;
+}
+
+

@@ -20,12 +20,6 @@ public class NotePK implements Serializable {
 
 	public NotePK() {
 	}
-	
-	public NotePK(int utilisateurId, int articleId) {
-		this.utilisateurId = utilisateurId;
-		this.articleId = articleId;
-	}
-
 	public int getUtilisateurId() {
 		return this.utilisateurId;
 	}

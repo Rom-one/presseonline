@@ -1,9 +1,7 @@
 package model;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 
 
@@ -41,15 +39,6 @@ public class FacturationDossier implements Serializable {
 	private Utilisateur utilisateur;
 
 	public FacturationDossier() {
-	}
-	
-	public FacturationDossier(Date date, String titre, double total, Dossier d, Utilisateur u) {
-		this.id = new FacturationDossierPK(d.getDossierId(), u.getUtilisateurId());
-		this.facturationDossierDate = date;
-		this.facturationDossierTitre = titre;
-		this.facturationDossierTotal = total;
-		this.dossier = d;
-		this.utilisateur = u;
 	}
 
 	public FacturationDossierPK getId() {
