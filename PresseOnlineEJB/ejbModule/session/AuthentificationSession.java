@@ -6,6 +6,7 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import session.client.AuthentificationSessionRemote;
 import model.Utilisateur;
 
 /**
@@ -18,11 +19,31 @@ public class AuthentificationSession implements AuthentificationSessionRemote {
 	@EJB
 	private UtilisateurSession utilisateurSession;
 	
+	private Utilisateur utilisateurCourant = null;
+	
     /**
      * Default constructor. 
      */
     public AuthentificationSession() {
         
     }
+    
+	public Utilisateur getUtilisateurCourant() {
+		return utilisateurCourant;
+	}
+
+	public void setUtilisateurCourant(Utilisateur utilisateurCourant) {
+		this.utilisateurCourant = utilisateurCourant;
+	}
+
+	@Override
+	public void login() {
+		utilisateurCourant = utilisateurSession.find(null);
+	}
+
+	@Override
+	public void logout() {
+		utilisateurCourant = null;
+	}
 
 }

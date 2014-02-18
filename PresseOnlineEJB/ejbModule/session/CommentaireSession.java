@@ -1,8 +1,12 @@
 package session;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import session.client.CommentaireSessionRemote;
 import model.Commentaire;
 
 /**
@@ -11,6 +15,9 @@ import model.Commentaire;
 @Stateless
 public class CommentaireSession extends AbstractSession<Commentaire> implements CommentaireSessionRemote {
 
+	@PersistenceContext(unitName="PresseOnlineJPA")
+	private EntityManager em;
+	
     /**
      * Default constructor. 
      */
@@ -20,8 +27,8 @@ public class CommentaireSession extends AbstractSession<Commentaire> implements 
 
 	@Override
 	protected EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return em;
 	}
 
+	
 }

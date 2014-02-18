@@ -1,8 +1,13 @@
 package session;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import session.client.DossierSessionRemote;
+import model.Article;
 import model.Dossier;
 
 /**
@@ -11,6 +16,9 @@ import model.Dossier;
 @Stateless
 public class DossierSession extends AbstractSession<Dossier> implements DossierSessionRemote {
 
+	@PersistenceContext(unitName="PresseOnlineJPA")
+	private EntityManager em;
+	
     /**
      * Default constructor. 
      */
@@ -20,8 +28,12 @@ public class DossierSession extends AbstractSession<Dossier> implements DossierS
 
 	@Override
 	protected EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return em;
 	}
 
+	@Override
+	public void publish(Dossier d) {
+		// TODO Auto-generated method stub
+		
+	}
 }

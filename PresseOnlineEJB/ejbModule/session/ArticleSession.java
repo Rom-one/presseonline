@@ -1,8 +1,13 @@
 package session;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 
+import session.client.ArticleSessionRemote;
 import model.Article;
 
 /**
@@ -11,6 +16,9 @@ import model.Article;
 @Stateless
 public class ArticleSession extends AbstractSession<Article> implements ArticleSessionRemote {
 
+	@PersistenceContext(unitName="PresseOnlineJPA")
+	private EntityManager em;
+	
     /**
      * Default constructor. 
      */
@@ -20,8 +28,16 @@ public class ArticleSession extends AbstractSession<Article> implements ArticleS
 
 	@Override
 	protected EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return em;
 	}
+
+	@Override
+	public void publish(Article a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
 
 }
