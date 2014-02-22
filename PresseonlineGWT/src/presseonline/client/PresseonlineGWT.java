@@ -54,12 +54,10 @@ public class PresseonlineGWT implements EntryPoint {
 		RootPanel.get("rightnav").add(rightNavPanel);
 		RootPanel.get("footer").add(footerPanel);
 		
-		Label recentArticle = new Label("Dernières articles");
+		Label recentArticle = new Label("Derniers articles");
 		recentArticle.addStyleName("rightnavTitle");
-		
-		/*On ajoute dans le rightnav les dernieres articles*/
 		rightNavPanel.add(recentArticle);
-
+		
 		displayLoginForm();
 	}
 
@@ -68,10 +66,10 @@ public class PresseonlineGWT implements EntryPoint {
 		Label titleForm = new Label("Connexion");
 		titleForm.addStyleName("pageTitle");
 		
-		TextBox textBoxLogin = new TextBox();
+		final TextBox textBoxLogin = new TextBox();
 		textBoxLogin.setText("Votre login");
 		
-		TextBox textBoxPassword = new TextBox();
+		final TextBox textBoxPassword = new TextBox();
 		textBoxPassword.setText("Votre mot de passe");
 		
 		Button buttonLogin = new Button("Valider");
@@ -92,7 +90,7 @@ public class PresseonlineGWT implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				doLoginAction();
+				doLoginAction(textBoxLogin.getText(), textBoxPassword.getText());
 			}
 		});
 
@@ -109,13 +107,13 @@ public class PresseonlineGWT implements EntryPoint {
 
 	public void displaySubscribeForm() {
 		mainPanel.clear();
-		TextBox textBoxLogin = new TextBox();
+		final TextBox textBoxLogin = new TextBox();
 		textBoxLogin.setText("Votre login");
-		TextBox textBoxPassword = new TextBox();
+		final TextBox textBoxPassword = new TextBox();
 		textBoxPassword.setText("Votre mot de passe");
-		TextBox textBoxNom = new TextBox();
+		final TextBox textBoxNom = new TextBox();
 		textBoxNom.setText("Votre nom");
-		TextBox textBoxPrenom = new TextBox();
+		final TextBox textBoxPrenom = new TextBox();
 		textBoxPrenom.setText("Votre prenom");
 		TextBox textBoxCatcha = new TextBox();
 		textBoxCatcha.setText("2+2 = ?");
@@ -134,13 +132,21 @@ public class PresseonlineGWT implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				doSubscribeAction();
+				doSubscribeAction(textBoxLogin.getText(), textBoxPassword.getText(), textBoxLogin.getText(), textBoxPassword.getText());
 			}
 		});
 	}
 
-	/* All the action that we should communicate with EJB */
-	public void doLoginAction() {
+	/**
+	 * Cette methode verifie le login et le mot de passe
+	 * @param login
+	 * @param password
+	 */
+	public void doLoginAction(String login, String password) {
+		
+		/*Effectuer le login et le mot de passe et affiche la page qui correspond 
+		 au profil d'utilisateur*/
+		
 		/* Test the display of admin page (create account) */
 		//adminPage.displayAdminCreateAccountPage();
 		//journalistPage.displayJournalistAddArticleForm();
@@ -148,7 +154,14 @@ public class PresseonlineGWT implements EntryPoint {
 		
 	}
 
-	public void doSubscribeAction() {
+	/**
+	 * Cette methode permet d'ajouter un utilisateur dans la base de donnes
+	 * @param login
+	 * @param password
+	 * @param name
+	 * @param firstName
+	 */
+	public void doSubscribeAction(String login, String password, String name, String firstName) {
 	
 	}
 
